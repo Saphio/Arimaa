@@ -7,6 +7,7 @@ public class GamePiece {
 
 	////// ATTRIBUTES ///////
 	private int ID;
+	private int side;
 	private String label;
 	private int posX, posY;
 	private boolean alive = true;
@@ -14,8 +15,9 @@ public class GamePiece {
 	private int[] turnsAgoPosY = new int[4];
 	
 	/////// CONSTRUCTOR ///////
-	public GamePiece (int id, String lbl, int px, int py) {
+	public GamePiece (int id, int s, String lbl, int px, int py) {
 		ID = id;
+		side = s;
 		label  = lbl;
 		posX = px;
 		posY = py;
@@ -24,6 +26,8 @@ public class GamePiece {
 	/////// METHODS //////
 	// gets ID of the piece
 	public int getID () { return ID; }
+	// gets the side of the piece
+	public int getSide () { return side; }
 	// gets label of the piece
 	public String getLabel () { return label; }
 	// gets position of the piece as an integer array [x, y]
