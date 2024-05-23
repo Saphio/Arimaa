@@ -118,4 +118,40 @@ public class Board extends JPanel{
 		}
 	}
 	
+
+	/////// VALIDATION METHODS - SETUP ///////
+	public boolean isValidSetup () {
+		for (int i = 0; i < boardArray.size(); i++) {
+			// silver pieces
+			if (i < 2) {
+				for (int j = 0; j < boardArray.get(i).size(); j++) {
+					if (!(boardArray.get(i).get(j).getSide() == 0)) {
+						return false;
+					}
+				}
+			}
+			// dummy pieces
+			if (i > 1 && i < 6) {
+				for (int j = 0; j < boardArray.get(i).size(); j++) {
+					if (!boardArray.get(i).get(j).getLabel().equals("Dummy")) {
+						return false;
+					}
+				}
+			}
+			// gold pieces
+			if (i > 5) {
+				for (int j = 0; j < boardArray.get(i).size(); j++) {
+					if (!(boardArray.get(i).get(j).getSide() == 1)) {
+						System.out.println("silver");
+
+						System.out.println(boardArray.get(i).get(j).getSide());
+						System.out.println(boardArray.get(i).get(j).getLabel());
+						return false;
+					}
+				}
+			}
+		}
+		return true;
+	}
+	
 }
