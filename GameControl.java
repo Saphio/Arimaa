@@ -6,7 +6,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
-
+import java.util.Arrays;
+import java.util.List;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Graphics;
@@ -73,7 +74,7 @@ public class GameControl implements ActionListener, MouseListener {
 	
 	/////// STATE VARIABLES ///////
 	boolean currentlyPlaying = false;
-	int currentPlayer = 1;
+	int currentPlayer = 0;
 	int movesLeft = 4;
 	
 	// setup variables
@@ -83,6 +84,7 @@ public class GameControl implements ActionListener, MouseListener {
 	// reset pieceCounts to blank array when gold is done setting up
 	int[] pieceLimits = new int[] {8, 2, 2, 2, 1, 1};
 	String[] pieces = new String[] {"rabbit", "cat", "dog", "horse", "camel", "elephant"};
+	
 	
 	/////// CONSTRUCTOR ///////
 	public GameControl () {
@@ -167,7 +169,7 @@ public class GameControl implements ActionListener, MouseListener {
 	public void actionPerformed(ActionEvent e) {
 		// setup
 		if (!currentlyPlaying) {
-			if (currentPlayer == 0) { side = "silver_"; }
+			if (currentPlayer == 1) { side = "silver_"; }
 			else { side = "gold_"; }
 			
 			if (e.getSource().equals(rabbit)) {
@@ -230,8 +232,9 @@ public class GameControl implements ActionListener, MouseListener {
 			//change "dummy" in this section to be equals and doesn't equal the string name of the pieces that you've added
 		
 			// add a piece to that loReport this adcation
+			List tempPieces = Arrays.asList(pieces);
 			if (board.boardArray.get(row).get(column).label.equals("Dummy") && !setupPiece.equals("")) {
-				board.addPiece(column, row, 0, 0, side + setupPiece);
+				board.addPiece(column, row, currentPlayer, 1, side + setupPiece);
 				updatePieceCounts (true, setupPiece);
 			}
 			// remove a piece from that location
@@ -267,9 +270,9 @@ public class GameControl implements ActionListener, MouseListener {
 				}
 			}
 			if (allDisabled) {
-				if (currentPlayer == 1) {
+				if (currentPlayer == 0) {
 					// Silver's turn to set up
-					currentPlayer = 0;
+					currentPlayer = 1;
 					pieceCounts = new int[6];
 					setupPiece = "";
 					curPlayerLbl.setText("Silver's turn");
@@ -281,7 +284,12 @@ public class GameControl implements ActionListener, MouseListener {
 				}
 				else {
 					// Done setting up; time to start game
-					// TODO: ADD METHOD FOR CHECKING VALID SETUP 
+					if (board.isValidSetup()) {
+						System.out.println("Valid");
+					}
+					else {
+						System.out.println("Invalid");
+					}
 					currentPlayer = 1;
 					currentlyPlaying = true;
 					curPlayerLbl.setText("Gold's turn");
@@ -297,6 +305,7 @@ public class GameControl implements ActionListener, MouseListener {
 		board.repaint();
 		
 	}
+	
 	
 	/////// UNUSED DEFAULT METHODS ///////
 	public void mouseClicked(MouseEvent e) {}
